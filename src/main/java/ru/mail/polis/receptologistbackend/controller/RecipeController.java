@@ -1,9 +1,6 @@
 package ru.mail.polis.receptologistbackend.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mail.polis.receptologistbackend.domain.Recipe;
 import ru.mail.polis.receptologistbackend.service.RecipeService;
 
@@ -24,7 +21,8 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/with-these-ingredients")
-    public List<Recipe> getRecipesWhichContainTheseIngredients(@RequestBody String[] ingredients) {
+    @ResponseBody
+    public List<Recipe> getRecipesWhichContainTheseIngredients(@RequestParam String[] ing) {
 
         return new ArrayList<>(); // stub
     }
