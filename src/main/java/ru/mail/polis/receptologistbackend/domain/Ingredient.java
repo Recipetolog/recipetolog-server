@@ -36,5 +36,5 @@ public class Ingredient implements Serializable {
     @ElementCollection
     @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "ingredient_id"))
     @Column(name = "recipe_id")
-    private Set<Long> recipes; // this set contains recipes where this ingredient used
+    private Set<Long> recipes; // this set contains ids of recipes in which this ingredient used
 }

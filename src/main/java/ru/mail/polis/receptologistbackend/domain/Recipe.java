@@ -17,7 +17,7 @@ public class Recipe implements Serializable, Comparable<Recipe> {
     @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "recipe_id"))
     @MapKeyJoinColumn(name = "ingredient_id")
     @Column(name = "amount")
-    Map<Ingredient, String> ingredients; // this set contains ingredients of this recipe
+    Map<Ingredient, String> ingredients; // this map contains ingredients of this recipe and their amount
 
     public Long getId() {
         return id;
