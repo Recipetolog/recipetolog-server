@@ -6,6 +6,7 @@ import ru.mail.polis.receptologistbackend.domain.Recipe;
 import ru.mail.polis.receptologistbackend.repository.IngredientRepository;
 import ru.mail.polis.receptologistbackend.repository.RecipeRepository;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -24,12 +25,17 @@ public class RecipeService {
     }
 
     public Set<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing) {
-        Set<Recipe> recipes = new TreeSet<>();
+        Set<Long> idsOfRecipes = new HashSet<>();
         for (int i = 0; i < ing.length; i++) {
             Ingredient ingredient = ingredientRepository.findByName(firstLetterUpperCase(ing[i]));
             if (ingredient != null) {
-                recipes.addAll(ingredient.getRecipes());
+                idsOfRecipes.addAll(ingredient.getRecipes());
             }
+        }
+
+        Set<Recipe> recipes = new TreeSet<>();
+        for (long l : idsOfRecipes) {
+            recipes.add(recipeRepository.findById(l));
         }
 
         return recipes;

@@ -16,8 +16,6 @@ public class Ingredient implements Serializable {
     @Column(unique = true)
     private String name; // ingredient name
 
-    private String amount; // amount of this ingredient in recipe
-
     public Long getId() {
         return id;
     }
@@ -26,19 +24,17 @@ public class Ingredient implements Serializable {
         return name;
     }
 
-    public String getAmount() {
-        return amount;
+    @Override
+    public String toString() {
+        return name;
     }
 
-    public Set<Recipe> getRecipes() {
+    public Set<Long> getRecipes() {
         return recipes;
     }
 
-    @ManyToMany
-            @JoinTable(
-                    name = "ingredient_recipe",
-                    joinColumns = @JoinColumn(name = "ingredient_id"),
-                    inverseJoinColumns = @JoinColumn(name = "recipe_id"))
-    @JsonIgnore
-    private Set<Recipe> recipes; // this set contains recipes where this ingredient used
+    @ElementCollection
+    @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "ingredient_id"))
+    @Column(name = "recipe_id")
+    private Set<Long> recipes; // this set contains recipes where this ingredient used
 }

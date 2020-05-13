@@ -2,7 +2,7 @@ package ru.mail.polis.receptologistbackend.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Map;
 
 @Entity
 @Table(name = "recipe")
@@ -13,8 +13,11 @@ public class Recipe implements Serializable, Comparable<Recipe> {
 
     private String name; // name of recipe
 
-    @ManyToMany(mappedBy = "recipes")
-    Set<Ingredient> ingredients; // this set contains ingredients of this recipe
+    @ElementCollection
+    @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "recipe_id"))
+    @MapKeyJoinColumn(name = "ingredient_id")
+    @Column(name = "amount")
+    Map<Ingredient, String> ingredients; // this set contains ingredients of this recipe
 
     public Long getId() {
         return id;
@@ -24,7 +27,7 @@ public class Recipe implements Serializable, Comparable<Recipe> {
         return name;
     }
 
-    public Set<Ingredient> getIngredients() {
+    public Map<Ingredient, String> getIngredients() {
         return ingredients;
     }
 
