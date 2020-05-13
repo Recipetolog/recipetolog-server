@@ -4,8 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.mail.polis.receptologistbackend.domain.Recipe;
 import ru.mail.polis.receptologistbackend.service.RecipeService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @RestController
 public class RecipeController {
@@ -22,8 +21,13 @@ public class RecipeController {
 
     @GetMapping("/recipes/with-these-ingredients")
     @ResponseBody
-    public List<Recipe> getRecipesWhichContainTheseIngredients(@RequestParam String[] ing) {
+    public Set<Recipe> getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing) {
+        return recipeService.getRecipesWhichCanContainTheseIngredients(ing);
+    }
 
-        return new ArrayList<>(); // stub
+    @GetMapping("/recipes/with-all-these-ingredients")
+    @ResponseBody
+    public Set<Recipe> getRecipesWhichContainAllTheseIngredients(@RequestParam String[] ing) {
+        return recipeService.getRecipesWhichContainAllTheseIngredients(ing);
     }
 }

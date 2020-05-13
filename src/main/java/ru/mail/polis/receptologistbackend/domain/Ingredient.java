@@ -1,5 +1,7 @@
 package ru.mail.polis.receptologistbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -24,10 +26,19 @@ public class Ingredient implements Serializable {
         return name;
     }
 
+    public String getAmount() {
+        return amount;
+    }
+
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
     @ManyToMany
             @JoinTable(
                     name = "ingredient_recipe",
                     joinColumns = @JoinColumn(name = "ingredient_id"),
                     inverseJoinColumns = @JoinColumn(name = "recipe_id"))
-    Set<Recipe> recipes; // this set contains recipes where this ingredient used
+    @JsonIgnore
+    private Set<Recipe> recipes; // this set contains recipes where this ingredient used
 }

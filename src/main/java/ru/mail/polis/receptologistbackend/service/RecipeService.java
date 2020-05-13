@@ -6,8 +6,8 @@ import ru.mail.polis.receptologistbackend.domain.Recipe;
 import ru.mail.polis.receptologistbackend.repository.IngredientRepository;
 import ru.mail.polis.receptologistbackend.repository.RecipeRepository;
 
-import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class RecipeService {
@@ -23,15 +23,26 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
-/*    public List<Recipe> findWhichContainTheseIngredients(Set<Ingredient> ingredients) {
+    public Set<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing) {
+        Set<Recipe> recipes = new TreeSet<>();
+        for (int i = 0; i < ing.length; i++) {
+            Ingredient ingredient = ingredientRepository.findByName(firstLetterUpperCase(ing[i]));
+            if (ingredient != null) {
+                recipes.addAll(ingredient.getRecipes());
+            }
+        }
 
+        return recipes;
     }
 
-    public List<Recipe> findWhichContainAllTheseIngredients(Set<Ingredient> ingredients) {
-
+    public Set<Recipe> getRecipesWhichContainAllTheseIngredients(String[] ing) {
+        throw new UnsupportedOperationException("Implement me!");
     }
 
-    public List<Recipe> findWhichContainOnlyTheseIngredients(Set<Ingredient> ingredients) {
-
-    }*/
+    private String firstLetterUpperCase(String word) {
+        if (word == null || word.isEmpty()) {
+            return word;
+        }
+        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+    }
 }
