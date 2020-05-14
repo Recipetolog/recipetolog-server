@@ -1,8 +1,14 @@
 package ru.mail.polis.receptologistbackend.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -16,6 +22,11 @@ public class Ingredient implements Serializable {
     @Column(unique = true)
     private String name; // ingredient name
 
+    @ElementCollection
+    @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "ingredient_id"))
+    @Column(name = "recipe_id")
+    private Set<Long> recipes; // this set contains ids of recipes in which this ingredient used
+
     public Long getId() {
         return id;
     }
@@ -24,17 +35,12 @@ public class Ingredient implements Serializable {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
     public Set<Long> getRecipes() {
         return recipes;
     }
 
-    @ElementCollection
-    @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "ingredient_id"))
-    @Column(name = "recipe_id")
-    private Set<Long> recipes; // this set contains ids of recipes in which this ingredient used
+    @Override
+    public String toString() {
+        return name;
+    }
 }
