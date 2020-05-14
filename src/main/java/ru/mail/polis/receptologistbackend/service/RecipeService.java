@@ -26,8 +26,8 @@ public class RecipeService {
 
     public Set<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing) {
         Set<Long> idsOfRecipes = new HashSet<>();
-        for (int i = 0; i < ing.length; i++) {
-            Ingredient ingredient = ingredientRepository.findByName(firstLetterUpperCase(ing[i]));
+        for (String i : ing) {
+            Ingredient ingredient = ingredientRepository.findByName(i.toLowerCase());
             if (ingredient != null) {
                 idsOfRecipes.addAll(ingredient.getRecipes());
             }
@@ -43,12 +43,5 @@ public class RecipeService {
 
     public Set<Recipe> getRecipesWhichContainAllTheseIngredients(String[] ing) {
         throw new UnsupportedOperationException("Implement me!");
-    }
-
-    private String firstLetterUpperCase(String word) {
-        if (word == null || word.isEmpty()) {
-            return word;
-        }
-        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
     }
 }
