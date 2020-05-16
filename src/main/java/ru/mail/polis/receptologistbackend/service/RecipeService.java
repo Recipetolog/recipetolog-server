@@ -9,7 +9,14 @@ import ru.mail.polis.receptologistbackend.domain.Recipe;
 import ru.mail.polis.receptologistbackend.repository.IngredientRepository;
 import ru.mail.polis.receptologistbackend.repository.RecipeRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 @Service
 public class RecipeService {
@@ -25,24 +32,34 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
-    public Set<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing) {
+    public List<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing) {
         Set<Long> idsOfRecipes = new HashSet<>();
+        Set<Ingredient> ingredients = new HashSet<>();
         for (String i : ing) {
             Ingredient ingredient = ingredientRepository.findByName(i.toLowerCase());
             if (ingredient != null) {
                 idsOfRecipes.addAll(ingredient.getRecipes());
+                ingredients.add(ingredient);
             }
         }
 
-        Set<Recipe> recipes = new TreeSet<>();
+        List<Recipe> recipes = new ArrayList<>();
         for (long l : idsOfRecipes) {
             recipes.add(recipeRepository.findById(l));
         }
+        // recipe with more matching ingredients will be the first
+        recipes.sort((o1, o2) -> {
+            Set<Ingredient> ingredients1 = new HashSet<>(o1.getIngredients().keySet());
+            ingredients1.retainAll(ingredients);
+            Set<Ingredient> ingredients2 = new HashSet<>(o2.getIngredients().keySet());
+            ingredients2.retainAll(ingredients);
+            return ingredients2.size() - ingredients1.size();
+        });
 
         return recipes;
     }
 
-    public Set<Recipe> getRecipesWhichContainAllTheseIngredients(String[] ing) {
+    public List<Recipe> getRecipesWhichContainAllTheseIngredients(String[] ing) {
         Queue<Ingredient> ingredients = new LinkedList<>();
         for (String i : ing) {
             Ingredient ingredient = ingredientRepository.findByName(i.toLowerCase());
@@ -51,7 +68,7 @@ public class RecipeService {
                  if one ingredient is null then it means that there are no recipes with all these ingredients
                  so we return empty set
                  */
-                return new TreeSet<>();
+                return new ArrayList<>();
             }
             ingredients.add(ingredient);
         }
@@ -63,7 +80,7 @@ public class RecipeService {
             idsOfRecipes.retainAll(ingredient.getRecipes()); // intersect
         }
 
-        Set<Recipe> recipes = new TreeSet<>();
+        List<Recipe> recipes = new ArrayList<>();
         for (long l : idsOfRecipes) {
             recipes.add(recipeRepository.findById(l));
         }

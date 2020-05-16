@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.mail.polis.receptologistbackend.domain.Recipe;
 import ru.mail.polis.receptologistbackend.service.RecipeService;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 public class RecipeController {
@@ -27,13 +27,13 @@ public class RecipeController {
 
     @GetMapping("/recipes/with-these-ingredients")
     @ResponseBody
-    public Set<Recipe> getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing) {
+    public List<Recipe> getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing) {
         return recipeService.getRecipesWhichCanContainTheseIngredients(ing);
     }
 
     @GetMapping("/recipes/with-all-these-ingredients")
     @ResponseBody
-    public Set<Recipe> getRecipesWhichContainAllTheseIngredients(@RequestParam String[] ing) {
+    public List<Recipe> getRecipesWhichContainAllTheseIngredients(@RequestParam String[] ing) {
         return recipeService.getRecipesWhichContainAllTheseIngredients(ing);
     }
 
