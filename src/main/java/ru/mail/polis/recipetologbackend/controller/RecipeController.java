@@ -1,4 +1,4 @@
-package ru.mail.polis.receptologistbackend.controller;
+package ru.mail.polis.recipetologbackend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mail.polis.receptologistbackend.domain.Recipe;
-import ru.mail.polis.receptologistbackend.service.RecipeService;
+import ru.mail.polis.recipetologbackend.domain.Recipe;
+import ru.mail.polis.recipetologbackend.service.RecipeService;
 
 import java.util.List;
 

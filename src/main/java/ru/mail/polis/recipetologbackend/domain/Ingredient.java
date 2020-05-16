@@ -1,4 +1,4 @@
-package ru.mail.polis.receptologistbackend.domain;
+package ru.mail.polis.recipetologbackend.domain;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;

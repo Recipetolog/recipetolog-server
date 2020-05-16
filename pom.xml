@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.mail.polis</groupId>
-	<artifactId>receptologist-backend</artifactId>
+	<artifactId>recipetolog-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>receptologist-backend</name>
+	<name>recipetolog-backend</name>
 	<description>Android project for polis.mail.ru, it's backend part</description>
 
 	<properties>

@@ -1,13 +1,13 @@
-package ru.mail.polis.receptologistbackend;
+package ru.mail.polis.recipetologbackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ReceptologistBackendApplication {
+public class RecipetologBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ReceptologistBackendApplication.class, args);
+		SpringApplication.run(RecipetologBackendApplication.class, args);
 	}
 
 }

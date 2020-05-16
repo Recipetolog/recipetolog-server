@@ -1,13 +1,13 @@
-package ru.mail.polis.receptologistbackend.service;
+package ru.mail.polis.recipetologbackend.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-import ru.mail.polis.receptologistbackend.domain.Ingredient;
-import ru.mail.polis.receptologistbackend.domain.Recipe;
-import ru.mail.polis.receptologistbackend.repository.IngredientRepository;
-import ru.mail.polis.receptologistbackend.repository.RecipeRepository;
+import ru.mail.polis.recipetologbackend.domain.Ingredient;
+import ru.mail.polis.recipetologbackend.domain.Recipe;
+import ru.mail.polis.recipetologbackend.repository.IngredientRepository;
+import ru.mail.polis.recipetologbackend.repository.RecipeRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
-package ru.mail.polis.receptologistbackend.repository;
+package ru.mail.polis.recipetologbackend.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.mail.polis.receptologistbackend.domain.Recipe;
+import ru.mail.polis.recipetologbackend.domain.Recipe;
 
 import java.util.List;
 

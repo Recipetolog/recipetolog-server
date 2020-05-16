@@ -1,10 +1,10 @@
-package ru.mail.polis.receptologistbackend;
+package ru.mail.polis.recipetologbackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ReceptologistBackendApplicationTests {
+class RecipetologBackendApplicationTests {
 
 	@Test
 	void contextLoads() {
