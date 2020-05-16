@@ -1,16 +1,15 @@
 package ru.mail.polis.receptologistbackend.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import ru.mail.polis.receptologistbackend.domain.Ingredient;
 import ru.mail.polis.receptologistbackend.domain.Recipe;
 import ru.mail.polis.receptologistbackend.repository.IngredientRepository;
 import ru.mail.polis.receptologistbackend.repository.RecipeRepository;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Service
 public class RecipeService {
@@ -70,5 +69,24 @@ public class RecipeService {
         }
 
         return recipes;
+    }
+
+    public Recipe newRecipe(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(json);
+        String recipeName = jsonNode.get("name").asText();
+
+        Map<Ingredient, String> ingredients = new HashMap<>();
+        jsonNode.get("ingredients").fields().forEachRemaining(f -> {
+                    String ingredientName = f.getKey().toLowerCase();
+                    Ingredient ingredient = ingredientRepository.findByName(ingredientName);
+                    if (ingredient == null) {
+                        ingredient = ingredientRepository.save(new Ingredient(ingredientName));
+                    }
+                    ingredients.put(ingredient, f.getValue().asText().toLowerCase());
+                }
+        );
+
+        return recipeRepository.save(new Recipe(recipeName, ingredients));
     }
 }

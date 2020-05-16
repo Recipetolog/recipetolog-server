@@ -28,6 +28,14 @@ public class Recipe implements Serializable, Comparable<Recipe> {
     @Column(name = "amount")
     Map<Ingredient, String> ingredients; // this map contains ingredients of this recipe and their amount
 
+    public Recipe() {
+    }
+
+    public Recipe(String name, Map<Ingredient, String> ingredients) {
+        this.name = name;
+        this.ingredients = ingredients;
+    }
+
     public Long getId() {
         return id;
     }

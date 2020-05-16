@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "ingredient")
 public class Ingredient implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -26,6 +26,13 @@ public class Ingredient implements Serializable {
     @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "ingredient_id"))
     @Column(name = "recipe_id")
     private Set<Long> recipes; // this set contains ids of recipes in which this ingredient used
+
+    public Ingredient() {
+    }
+
+    public Ingredient(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
