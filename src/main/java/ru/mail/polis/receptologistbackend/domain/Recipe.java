@@ -17,7 +17,7 @@ import java.util.Map;
 @Table(name = "recipe")
 public class Recipe implements Serializable, Comparable<Recipe> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name; // name of recipe
