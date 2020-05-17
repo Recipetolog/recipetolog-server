@@ -1,17 +1,8 @@
 package ru.mail.polis.recipetologbackend.domain;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipe")
@@ -22,18 +13,14 @@ public class Recipe implements Serializable, Comparable<Recipe> {
 
     private String name; // name of recipe
 
-    @ElementCollection
-    @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "recipe_id"))
-    @MapKeyJoinColumn(name = "ingredient_id")
-    @Column(name = "amount")
-    Map<Ingredient, String> ingredients; // this map contains ingredients of this recipe and their amount
+    @OneToMany(
+            mappedBy = "recipe",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<IngredientRecipe> ingredients; // this set contains ingredients of this recipe and their amount
 
     public Recipe() {
-    }
-
-    public Recipe(String name, Map<Ingredient, String> ingredients) {
-        this.name = name;
-        this.ingredients = ingredients;
     }
 
     public Long getId() {
@@ -44,7 +31,7 @@ public class Recipe implements Serializable, Comparable<Recipe> {
         return name;
     }
 
-    public Map<Ingredient, String> getIngredients() {
+    public Set<IngredientRecipe> getIngredients() {
         return ingredients;
     }
 

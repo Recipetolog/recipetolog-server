@@ -1,5 +1,7 @@
 package ru.mail.polis.recipetologbackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -25,6 +27,7 @@ public class Ingredient implements Serializable {
     @ElementCollection
     @CollectionTable(name = "ingredient_recipe", joinColumns = @JoinColumn(name = "ingredient_id"))
     @Column(name = "recipe_id")
+    @JsonIgnore
     private Set<Long> recipes; // this set contains ids of recipes in which this ingredient used
 
     public Ingredient() {

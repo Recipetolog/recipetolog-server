@@ -49,9 +49,11 @@ public class RecipeService {
         }
         // recipe with more matching ingredients will be the first
         recipes.sort((o1, o2) -> {
-            Set<Ingredient> ingredients1 = new HashSet<>(o1.getIngredients().keySet());
+            Set<Ingredient> ingredients1 = new HashSet<>();
+            o1.getIngredients().forEach(ir -> ingredients1.add(ir.getIngredient()));
             ingredients1.retainAll(ingredients);
-            Set<Ingredient> ingredients2 = new HashSet<>(o2.getIngredients().keySet());
+            Set<Ingredient> ingredients2 = new HashSet<>();
+            o2.getIngredients().forEach(ir -> ingredients2.add(ir.getIngredient()));
             ingredients2.retainAll(ingredients);
             return ingredients2.size() - ingredients1.size();
         });
@@ -88,22 +90,22 @@ public class RecipeService {
         return recipes;
     }
 
-    public Recipe newRecipe(String json) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonNode = mapper.readTree(json);
-        String recipeName = jsonNode.get("name").asText();
-
-        Map<Ingredient, String> ingredients = new HashMap<>();
-        jsonNode.get("ingredients").fields().forEachRemaining(f -> {
-                    String ingredientName = f.getKey().toLowerCase();
-                    Ingredient ingredient = ingredientRepository.findByName(ingredientName);
-                    if (ingredient == null) {
-                        ingredient = ingredientRepository.save(new Ingredient(ingredientName));
-                    }
-                    ingredients.put(ingredient, f.getValue().asText().toLowerCase());
-                }
-        );
-
-        return recipeRepository.save(new Recipe(recipeName, ingredients));
-    }
+//    public Recipe newRecipe(String json) throws JsonProcessingException {
+//        ObjectMapper mapper = new ObjectMapper();
+//        JsonNode jsonNode = mapper.readTree(json);
+//        String recipeName = jsonNode.get("name").asText();
+//
+//        Map<Ingredient, String> ingredients = new HashMap<>();
+//        jsonNode.get("ingredients").fields().forEachRemaining(f -> {
+//                    String ingredientName = f.getKey().toLowerCase();
+//                    Ingredient ingredient = ingredientRepository.findByName(ingredientName);
+//                    if (ingredient == null) {
+//                        ingredient = ingredientRepository.save(new Ingredient(ingredientName));
+//                    }
+//                    ingredients.put(ingredient, f.getValue().asText().toLowerCase());
+//                }
+//        );
+//
+//        return recipeRepository.save(new Recipe(recipeName, ingredients));
+//    }
 }

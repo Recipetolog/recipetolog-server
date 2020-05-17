@@ -37,8 +37,8 @@ public class RecipeController {
         return recipeService.getRecipesWhichContainAllTheseIngredients(ing);
     }
 
-    @PostMapping("/recipes")
-    public Recipe newRecipe(@RequestBody String json) throws JsonProcessingException {
-        return recipeService.newRecipe(json);
-    }
+//    @PostMapping("/recipes")
+//    public Recipe newRecipe(@RequestBody String json) throws JsonProcessingException {
+//        return recipeService.newRecipe(json);
+//    }
 }
