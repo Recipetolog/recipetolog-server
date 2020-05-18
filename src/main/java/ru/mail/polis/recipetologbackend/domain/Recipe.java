@@ -1,13 +1,8 @@
 package ru.mail.polis.recipetologbackend.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,6 +23,9 @@ public class Recipe implements Serializable, Comparable<Recipe> {
     )
     private Set<IngredientRecipe> ingredients; // this set contains ingredients of this recipe and their amount
 
+    @ElementCollection
+    private List<String> directions; // step by step instructions for this recipe
+
     public Recipe() {
     }
 
@@ -45,6 +43,10 @@ public class Recipe implements Serializable, Comparable<Recipe> {
 
     public Set<IngredientRecipe> getIngredients() {
         return ingredients;
+    }
+
+    public List<String> getDirections() {
+        return directions;
     }
 
     @Override
