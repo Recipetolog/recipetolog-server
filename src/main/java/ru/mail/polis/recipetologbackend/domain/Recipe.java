@@ -1,6 +1,13 @@
 package ru.mail.polis.recipetologbackend.domain;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +22,8 @@ public class Recipe implements Serializable, Comparable<Recipe> {
     private String name; // name of recipe
 
     private String imageUrl; // url to image of this recipe
+
+    private String description;
 
     @OneToMany(
             mappedBy = "recipe",
@@ -39,6 +48,10 @@ public class Recipe implements Serializable, Comparable<Recipe> {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Set<IngredientRecipe> getIngredients() {
