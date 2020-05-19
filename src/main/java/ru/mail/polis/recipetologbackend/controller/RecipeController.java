@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mail.polis.recipetologbackend.domain.Recipe;
 import ru.mail.polis.recipetologbackend.service.RecipeService;
-
-import java.util.List;
+import ru.mail.polis.recipetologbackend.service.RecipeWrapper;
 
 @RestController
 public class RecipeController {
@@ -27,15 +26,15 @@ public class RecipeController {
 
     @GetMapping("/recipes/with-these-ingredients")
     @ResponseBody
-    public List<Recipe> getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing,
-                                                                  @RequestParam int from,
-                                                                  @RequestParam int count) {
+    public RecipeWrapper getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing,
+                                                                   @RequestParam int from,
+                                                                   @RequestParam int count) {
         return recipeService.getRecipesWhichCanContainTheseIngredients(ing, from, count);
     }
 
     @GetMapping("/recipes/with-all-these-ingredients")
     @ResponseBody
-    public List<Recipe> getRecipesWhichContainAllTheseIngredients(@RequestParam String[] ing,
+    public RecipeWrapper getRecipesWhichContainAllTheseIngredients(@RequestParam String[] ing,
                                                                   @RequestParam int from,
                                                                   @RequestParam int count) {
         return recipeService.getRecipesWhichContainAllTheseIngredients(ing, from, count);

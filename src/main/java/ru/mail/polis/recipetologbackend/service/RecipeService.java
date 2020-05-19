@@ -36,7 +36,7 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
-    public List<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing, int from, int count) {
+    public RecipeWrapper getRecipesWhichCanContainTheseIngredients(String[] ing, int from, int count) {
         Set<Long> idsOfRecipes = new HashSet<>();
         Set<Ingredient> ingredients = new HashSet<>();
         for (String i : ing) {
@@ -62,16 +62,10 @@ public class RecipeService {
             return ingredients2.size() - ingredients1.size();
         });
 
-        if (from + count <= recipes.size()) {
-            return recipes.subList(from, from + count);
-        } else if (from < recipes.size()) {
-            return recipes.subList(from, recipes.size());
-        } else {
-            return null;
-        }
+        return getRecipeWrapper(recipes, from, count);
     }
 
-    public List<Recipe> getRecipesWhichContainAllTheseIngredients(String[] ing, int from, int count) {
+    public RecipeWrapper getRecipesWhichContainAllTheseIngredients(String[] ing, int from, int count) {
         Queue<Ingredient> ingredients = new LinkedList<>();
         for (String i : ing) {
             Ingredient ingredient = ingredientRepository.findByName(i.toLowerCase());
@@ -80,7 +74,7 @@ public class RecipeService {
                  if one ingredient is null then it means that there are no recipes with all these ingredients
                  so we return empty set
                  */
-                return new ArrayList<>();
+                return new RecipeWrapper(null);
             }
             ingredients.add(ingredient);
         }
@@ -97,12 +91,16 @@ public class RecipeService {
             recipes.add(recipeRepository.findById(l));
         }
 
+        return getRecipeWrapper(recipes, from, count);
+    }
+
+    private RecipeWrapper getRecipeWrapper(List<Recipe> recipes, int from, int count) {
         if (from + count <= recipes.size()) {
-            return recipes.subList(from, from + count);
+            return new RecipeWrapper(recipes.subList(from, from + count));
         } else if (from < recipes.size()) {
-            return recipes.subList(from, recipes.size());
+            return new RecipeWrapper(recipes.subList(from, recipes.size()));
         } else {
-            return null;
+            return new RecipeWrapper(null);
         }
     }
 
