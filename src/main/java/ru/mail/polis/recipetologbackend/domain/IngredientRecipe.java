@@ -26,6 +26,17 @@ public class IngredientRecipe {
 
     private String amount;
 
+    public IngredientRecipe() {
+
+    }
+
+    public IngredientRecipe(Ingredient ingredient, Recipe recipe, String amount) {
+        this.id = new IngredientRecipeId(ingredient.getId(), recipe.getId());
+        this.ingredient = ingredient;
+        this.recipe = recipe;
+        this.amount = amount;
+    }
+
     public IngredientRecipeId getId() {
         return id;
     }

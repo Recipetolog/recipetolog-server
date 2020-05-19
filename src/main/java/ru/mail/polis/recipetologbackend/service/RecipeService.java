@@ -5,16 +5,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import ru.mail.polis.recipetologbackend.domain.Ingredient;
+import ru.mail.polis.recipetologbackend.domain.IngredientRecipe;
 import ru.mail.polis.recipetologbackend.domain.Recipe;
+import ru.mail.polis.recipetologbackend.repository.IngredientRecipeRepository;
 import ru.mail.polis.recipetologbackend.repository.IngredientRepository;
 import ru.mail.polis.recipetologbackend.repository.RecipeRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -22,10 +22,14 @@ import java.util.Set;
 public class RecipeService {
     private RecipeRepository recipeRepository;
     private IngredientRepository ingredientRepository;
+    private IngredientRecipeRepository ingredientRecipeRepository;
 
-    public RecipeService(RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
+    public RecipeService(RecipeRepository recipeRepository,
+                         IngredientRepository ingredientRepository,
+                         IngredientRecipeRepository ingredientRecipeRepository) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
+        this.ingredientRecipeRepository = ingredientRecipeRepository;
     }
 
     public Recipe getRecipeById(long id) {
@@ -90,22 +94,30 @@ public class RecipeService {
         return recipes;
     }
 
-//    public Recipe newRecipe(String json) throws JsonProcessingException {
-//        ObjectMapper mapper = new ObjectMapper();
-//        JsonNode jsonNode = mapper.readTree(json);
-//        String recipeName = jsonNode.get("name").asText();
-//
-//        Map<Ingredient, String> ingredients = new HashMap<>();
-//        jsonNode.get("ingredients").fields().forEachRemaining(f -> {
-//                    String ingredientName = f.getKey().toLowerCase();
-//                    Ingredient ingredient = ingredientRepository.findByName(ingredientName);
-//                    if (ingredient == null) {
-//                        ingredient = ingredientRepository.save(new Ingredient(ingredientName));
-//                    }
-//                    ingredients.put(ingredient, f.getValue().asText().toLowerCase());
-//                }
-//        );
-//
-//        return recipeRepository.save(new Recipe(recipeName, ingredients));
-//    }
+    public Recipe newRecipe(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(json);
+        String name = jsonNode.get("name").asText().toLowerCase();
+        String imageUrl = jsonNode.get("imageUrl").asText();
+        String description = jsonNode.get("description").asText();
+        List<String> directions = new LinkedList<>();
+        jsonNode.get("directions").forEach(n -> directions.add(n.asText()));
+        Recipe recipe = recipeRepository.save(new Recipe(name, imageUrl, description, directions));
+
+        jsonNode.get("ingredients").fields().forEachRemaining(f -> {
+                    String ingredientName = f.getKey().toLowerCase();
+                    Ingredient ingredient = ingredientRepository.findByName(ingredientName);
+                    if (ingredient == null) {
+                        ingredient = ingredientRepository.save(new Ingredient(ingredientName));
+                    }
+                    ingredientRecipeRepository.save(new IngredientRecipe(
+                            ingredient,
+                            recipe,
+                            f.getValue().asText().toLowerCase())
+                    );
+                }
+        );
+
+        return recipe;
+    }
 }

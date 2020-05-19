@@ -38,6 +38,13 @@ public class Recipe implements Serializable, Comparable<Recipe> {
     public Recipe() {
     }
 
+    public Recipe(String name, String imageUrl, String description, List<String> directions) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.directions = directions;
+    }
+
     public Long getId() {
         return id;
     }
