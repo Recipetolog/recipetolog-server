@@ -99,10 +99,11 @@ public class RecipeService {
         JsonNode jsonNode = mapper.readTree(json);
         String name = jsonNode.get("name").asText().toLowerCase();
         String imageUrl = jsonNode.get("imageUrl").asText();
+        String source = jsonNode.get("source").asText();
         String description = jsonNode.get("description").asText();
         List<String> directions = new LinkedList<>();
         jsonNode.get("directions").forEach(n -> directions.add(n.asText()));
-        Recipe recipe = recipeRepository.save(new Recipe(name, imageUrl, description, directions));
+        Recipe recipe = recipeRepository.save(new Recipe(name, imageUrl, source, description, directions));
 
         jsonNode.get("ingredients").fields().forEachRemaining(f -> {
                     String ingredientName = f.getKey().toLowerCase();

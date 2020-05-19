@@ -23,6 +23,8 @@ public class Recipe implements Serializable, Comparable<Recipe> {
 
     private String imageUrl; // url to image of this recipe
 
+    private String source; // link to the site where the recipe came from
+
     private String description;
 
     @OneToMany(
@@ -38,9 +40,10 @@ public class Recipe implements Serializable, Comparable<Recipe> {
     public Recipe() {
     }
 
-    public Recipe(String name, String imageUrl, String description, List<String> directions) {
+    public Recipe(String name, String imageUrl, String source, String description, List<String> directions) {
         this.name = name;
         this.imageUrl = imageUrl;
+        this.source = source;
         this.description = description;
         this.directions = directions;
     }
@@ -55,6 +58,10 @@ public class Recipe implements Serializable, Comparable<Recipe> {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getSource() {
+        return source;
     }
 
     public String getDescription() {
