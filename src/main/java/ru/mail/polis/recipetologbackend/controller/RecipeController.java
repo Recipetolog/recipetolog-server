@@ -27,14 +27,18 @@ public class RecipeController {
 
     @GetMapping("/recipes/with-these-ingredients")
     @ResponseBody
-    public List<Recipe> getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing) {
-        return recipeService.getRecipesWhichCanContainTheseIngredients(ing);
+    public List<Recipe> getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing,
+                                                                  @RequestParam int from,
+                                                                  @RequestParam int count) {
+        return recipeService.getRecipesWhichCanContainTheseIngredients(ing, from, count);
     }
 
     @GetMapping("/recipes/with-all-these-ingredients")
     @ResponseBody
-    public List<Recipe> getRecipesWhichContainAllTheseIngredients(@RequestParam String[] ing) {
-        return recipeService.getRecipesWhichContainAllTheseIngredients(ing);
+    public List<Recipe> getRecipesWhichContainAllTheseIngredients(@RequestParam String[] ing,
+                                                                  @RequestParam int from,
+                                                                  @RequestParam int count) {
+        return recipeService.getRecipesWhichContainAllTheseIngredients(ing, from, count);
     }
 
     @PostMapping("/recipes")

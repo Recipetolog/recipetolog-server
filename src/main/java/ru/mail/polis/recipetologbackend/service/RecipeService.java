@@ -36,7 +36,7 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
-    public List<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing) {
+    public List<Recipe> getRecipesWhichCanContainTheseIngredients(String[] ing, int from, int count) {
         Set<Long> idsOfRecipes = new HashSet<>();
         Set<Ingredient> ingredients = new HashSet<>();
         for (String i : ing) {
@@ -62,10 +62,16 @@ public class RecipeService {
             return ingredients2.size() - ingredients1.size();
         });
 
-        return recipes;
+        if (from + count <= recipes.size()) {
+            return recipes.subList(from, from + count);
+        } else if (from < recipes.size()) {
+            return recipes.subList(from, recipes.size());
+        } else {
+            return null;
+        }
     }
 
-    public List<Recipe> getRecipesWhichContainAllTheseIngredients(String[] ing) {
+    public List<Recipe> getRecipesWhichContainAllTheseIngredients(String[] ing, int from, int count) {
         Queue<Ingredient> ingredients = new LinkedList<>();
         for (String i : ing) {
             Ingredient ingredient = ingredientRepository.findByName(i.toLowerCase());
@@ -91,7 +97,13 @@ public class RecipeService {
             recipes.add(recipeRepository.findById(l));
         }
 
-        return recipes;
+        if (from + count <= recipes.size()) {
+            return recipes.subList(from, from + count);
+        } else if (from < recipes.size()) {
+            return recipes.subList(from, recipes.size());
+        } else {
+            return null;
+        }
     }
 
     public Recipe newRecipe(String json) throws JsonProcessingException {
