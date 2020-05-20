@@ -24,6 +24,11 @@ public class RecipeController {
         return recipeService.getRecipeById(id);
     }
 
+    @GetMapping("/recipes-list")
+    public RecipeWrapper recipesFromTo(@RequestParam int from, @RequestParam int count) {
+        return recipeService.getRecipes(from, count);
+    }
+
     @GetMapping("/recipes/with-these-ingredients")
     @ResponseBody
     public RecipeWrapper getRecipesWhichCanContainTheseIngredients(@RequestParam String[] ing,

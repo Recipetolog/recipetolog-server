@@ -9,4 +9,6 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
     Recipe findById(long id);
 
     List<Recipe> findByNameContaining(String name);
+
+    List<Recipe> findByIdBetween(long from, long count);
 }

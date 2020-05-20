@@ -36,6 +36,10 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
+    public RecipeWrapper getRecipes(int from, int count) {
+        return new RecipeWrapper(recipeRepository.findByIdBetween(from, from + count));
+    }
+
     public RecipeWrapper getRecipesWhichCanContainTheseIngredients(String[] ing, int from, int count) {
         Set<Long> idsOfRecipes = new HashSet<>();
         Set<Ingredient> ingredients = new HashSet<>();
@@ -100,7 +104,7 @@ public class RecipeService {
         } else if (from < recipes.size()) {
             return new RecipeWrapper(recipes.subList(from, recipes.size()));
         } else {
-            return new RecipeWrapper(null);
+            return new RecipeWrapper(new ArrayList<>());
         }
     }
 
