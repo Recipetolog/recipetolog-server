@@ -78,7 +78,7 @@ public class RecipeService {
                  if one ingredient is null then it means that there are no recipes with all these ingredients
                  so we return empty set
                  */
-                return new RecipeWrapper(null);
+                return new RecipeWrapper(new ArrayList<>());
             }
             ingredients.add(ingredient);
         }
