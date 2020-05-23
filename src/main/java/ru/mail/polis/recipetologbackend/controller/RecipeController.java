@@ -24,6 +24,11 @@ public class RecipeController {
         return recipeService.getRecipeById(id);
     }
 
+    @GetMapping("/recipes-by-name")
+    public RecipeWrapper getRecipesByName(@RequestParam String name) {
+        return recipeService.getRecipesByName(name);
+    }
+
     @GetMapping("/recipes-list")
     public RecipeWrapper recipesFromTo(@RequestParam int from, @RequestParam int count) {
         return recipeService.getRecipes(from, count);
