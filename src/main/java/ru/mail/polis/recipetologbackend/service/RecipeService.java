@@ -36,8 +36,8 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
-    public RecipeWrapper getRecipesByName(String name) {
-        return new RecipeWrapper(recipeRepository.findByNameContaining(name));
+    public RecipeWrapper getRecipesByName(String name, int from, int count) {
+        return getRecipeWrapper(recipeRepository.findByNameContaining(name), from, count);
     }
 
     public RecipeWrapper getRecipes(int from, int count) {
